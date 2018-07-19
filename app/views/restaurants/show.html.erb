@@ -1,0 +1,143 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+
+.liked{
+   color: #F1599E;
+}
+
+
+</style>
+<h1 id="title">식당 <%= @restaurant.scrabs.size %> 명이 좋아합니다. 
+ <p align = "right">
+
+ 
+  <!--스크랩-->
+
+      <% if current_user.is_scrab? (@restaurant) %>
+           <%= link_to "스크랩 취소", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
+      <% else %>
+          <%= link_to "스크랩", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
+      <% end %>
+   
+  
+  <!--리뷰작성-->
+  <%= link_to "리뷰작성", new_review_path(restaurant_id: @restaurant.id),class: "btn btn-secondary"%>
+ </p>
+</h1>
+
+<hr>
+
+ 
+
+<h3>리뷰  목록</h3>
+<ul class="list-group">
+  <% @restaurant.reviews.each do |review| %>
+      <li class="list-group-item ">
+         맛평가 : 
+          <% (1..review.taste_eval).each do%>
+              <span class="fa fa-star checked" style="width:11px; margin-top:-5px; font-size:9px; color:#FFD700;"></span>
+          <%end%>
+          <% tmp = 5- review.taste_eval%>
+          <% (1..tmp).each do %>
+            <span class="fa fa-star" style="width:11px; margin-top:-5px; font-size:9px; color:#808080;"></span>
+          <% end %>
+          &nbsp;&nbsp;
+          서비스평가 :
+          <% (1..review.service_eval).each do%>
+              <span  class="fa fa-star checked" style="width:11px; margin-top:-5px; font-size:9px; color:#FFD700;"></span>
+          <%end%>
+          <% tmp = 5- review.service_eval%>
+          <% (1..tmp).each do %>
+            <span class="fa fa-star" style="width:11px; margin-top:-5px; font-size:9px; color:#808080;"></span>
+          <% end %>
+          &nbsp;&nbsp;
+          가격평가 : 
+           <% (1..review.price_eval).each do%>
+              <span  class="fa fa-star checked" style=" width:11px; margin-top:-5px; font-size:9px; color:#FFD700;"></span>
+          <%end%>
+          <% tmp = 5- review.price_eval%>
+          <% (1..tmp).each do %>
+            <span class="fa fa-star" style="width:11px; margin-top:-5px; font-size:9px; color:#808080;"></span>
+          <% end %>
+          
+  
+         <br><p><%= simple_format(review.contents) %></p>
+      
+              
+        
+          <p>
+            <% if current_user.is_like?(review) %>
+                  <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"> 좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
+            <% else %>
+            
+                  <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"> 좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+            <% end %>
+          </p>
+      
+      
+      </li>
+  <% end %>
+</ul>
+
+
+<hr>
+<% if user_signed_in? %>
+<!-- 로그인된 상태  -->
+<%= link_to "#{current_user.email}", user_path %>
+<%= link_to '로그 아웃', destroy_user_session_path, method: "delete" %>
+<% else %>
+<!-- 로그아웃된 상태  -->
+<%= link_to '로그인', new_user_session_path %>
+<%  end %>
+
+
+
+<script>
+$(document).on('ready', function() {
+    
+    
+    
+   $('.like').on('click',function(){
+      var review_id =  $(this).attr('data-id');
+      var flag = $(`#flag-${review_id}`).val();
+      console.log(flag + "1");
+      if(flag == "false"){
+      	var like_count = parseInt($(`.count-${review_id}`).text());
+      	like_count = like_count - 1;
+      	
+      	
+      	console.log(flag + "2");
+      	flag = "true";
+      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> 좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+      	$.ajax({
+      		url: "/likes/" + review_id
+      	})
+      
+      }
+      
+      else{
+      	var like_count = parseInt($(`.count-${review_id}`).text());
+      	like_count = like_count + 1;
+      	
+      	console.log(flag + "3");
+      	flag = "false";
+        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> 좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+      	$.ajax({
+      		url: "/likes/" + review_id
+      	})
+    
+      	
+      }  
+   });   
+});
+</script>
+

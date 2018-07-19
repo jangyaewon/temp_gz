@@ -1,0 +1,18 @@
+<h1>아이디: <%=current_user.email%></h1>
+<hr>
+<p>리뷰목록</p>
+<% current_user.reviews.each do |review| %>
+	<li class="list-group-item">
+	      <%= link_to "#{review.restaurant.search_restaurant(review)}", restaurant_path(restaurant_id: review.restaurant_id),class: "btn btn-secondary"%>
+          <%= simple_format(review.contents) %>
+	</li>
+<% end %>
+<hr>
+
+<p>스크랩목록</p>
+<% current_user.scrabs.each do |scrab| %>
+	<li class="list-group-item">
+		 <%= link_to "#{scrab.restaurant.search_restaurant(scrab)}", restaurant_path(restaurant_id: scrab.restaurant_id),class: "btn btn-secondary"%>
+	</li>
+<% end %>
+<hr>

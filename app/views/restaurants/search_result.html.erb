@@ -1,0 +1,15 @@
+<div id= "title" class="row">
+<% @restaurants.each do |restaurant| %>
+<div class="card col-md-3">
+  <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
+  <div class="card-body">
+    <h5 class="card-title"><span><%= restaurant.res_name%></span></h5>
+    <p class="card-text"><%= restaurant.food_type%></p>
+    <p class="card-text"><%= restaurant.detail_addr%></p>
+    <p class="card-text"><%= restaurant.phone%></p>
+    
+    <%= link_to '식당 정보보기', restaurant_path(restaurant), class: 'btn btn-primary' %>
+  </div>
+</div>
+<%  end %>
+</div>

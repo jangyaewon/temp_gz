@@ -1,0 +1,62 @@
+<%= form_for(restaurant) do |f| %>
+   <div class="form-group">
+     <%= f.label :식당이름 %>
+     <%= f.text_field :res_name, class: "form-control" %> 
+  </div>  
+
+   <div class="form-group">
+     <%= f.label :지점명 %>
+     <%= f.text_field :branch_name, placeholder:"지점이 하나일 경우, 본점으로 입력",class: "form-control" %> 
+  </div>
+   <div class="form-group">
+     <%= f.label :상세주소 %>
+     <%= f.text_field :detail_addr, class: "form-control" %> 
+  </div>
+  
+  <div class="form-group">
+     <%= f.label :음식종류 %>
+     <%= f.text_field :food_type, placeholder:"예)한식,중식,일식,양식,기타",class: "form-control" %> 
+  </div>
+  
+
+  
+  <div class="form-group">
+     <%= f.label :open %>
+     <%= f.text_area :open_hour, class: "form-control" %> 
+  </div>
+  
+  <div class="form-group">
+     <%= f.label :close %>
+     <%= f.text_area :close_hour, class: "form-control" %> 
+  </div>
+  
+  <div class="form-group">
+     <%= f.label :최소가격 %>
+     <%= f.number_field :min_price, class: "form-control" %> 
+  </div>
+
+  <div class="form-group">
+     <%= f.label :최대가격 %>
+     <%= f.number_field :max_price, class: "form-control" %> 
+  </div>
+
+  <div class="form-group">
+     <%= f.label :전화번호 %>
+     <%= f.text_area :phone, class: "form-control" %> 
+  </div>  
+  
+  <div class="form-group">
+     <%= f.label :사업자번호 %>
+     <%= f.text_area :b_number, class: "form-control" %> 
+  </div>
+  <div class="form-group">
+     <%= f.label :image_path %>
+     <%= f.file_field :image_path, class: "form-control" %> 
+  </div>
+  
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>

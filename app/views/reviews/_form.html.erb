@@ -1,0 +1,179 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.checked {
+    color: orange;
+}
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+fieldset, label { margin: 0; padding: 0; }
+body{ margin: 20px; }
+h1 { font-size: 1.5em; margin: 10px; }
+
+/****** Style Star Rating Widget *****/
+
+.rating { 
+  border: none;
+  float: left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating > input:checked ~ label, /* show gold star when clicked */
+.rating:not(:checked) > label:hover, /* hover current star */
+.rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating > input:checked + label:hover, /* hover current star when changing rating */
+.rating > input:checked ~ label:hover,
+.rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+
+
+/*****Star rating 2 *****/
+.rating2 { 
+  border: none;
+  float: left;
+}
+
+.rating2 > input { display: none; } 
+.rating2 > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating2 > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating2 > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating2 > input:checked ~ label, /* show gold star when clicked */
+.rating2:not(:checked) > label:hover, /* hover current star */
+.rating2:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating2 > input:checked + label:hover, /* hover current star when changing rating */
+.rating2 > input:checked ~ label:hover,
+.rating2 > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating2 > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+/*****Star rating 3 *****/
+.rating3 { 
+  border: none;
+  float: left;
+}
+
+.rating3 > input { display: none; } 
+.rating3 > label:before { 
+  margin: 5px;
+  font-size: 1.25em;
+  font-family: FontAwesome;
+  display: inline-block;
+  content: "\f005";
+}
+
+.rating3 > .half:before { 
+  content: "\f089";
+  position: absolute;
+}
+
+.rating3 > label { 
+  color: #ddd; 
+ float: right; 
+}
+
+/***** CSS Magic to Highlight Stars on Hover *****/
+
+.rating3 > input:checked ~ label, /* show gold star when clicked */
+.rating3:not(:checked) > label:hover, /* hover current star */
+.rating3:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+.rating3 > input:checked + label:hover, /* hover current star when changing rating */
+.rating3 > input:checked ~ label:hover,
+.rating3 > label:hover ~ input:checked ~ label, /* lighten current selection */
+.rating3 > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+</style>
+
+
+<%= form_for(review) do |f| %>
+
+    <%= f.hidden_field :restaurant_id, value: params[:restaurant_id] %>
+    
+    <div class="field">
+      <%= f.label :맛평가 %>
+      
+      <fieldset class="rating taste_eval">
+          <input type="radio" id="star1-5" name="review[taste_eval]" value="5" /><label class = "full" for="star1-5" title="Awesome - 5 stars"></label>
+          <input type="radio" id="star1-4" name="review[taste_eval]" value="4" /><label class = "full" for="star1-4" title="Pretty good - 4 stars"></label>
+          <input type="radio" id="star1-3" name="review[taste_eval]" value="3" /><label class = "full" for="star1-3" title="Meh - 3 stars"></label>
+          <input type="radio" id="star1-2" name="review[taste_eval]" value="2" /><label class = "full" for="star1-2" title="Kinda bad - 2 stars"></label>
+          <input type="radio" id="star1-1" name="review[taste_eval]" value="1" /><label class = "full" for="star1-1" title="Sucks big time - 1 star"></label>
+      </fieldset> 
+    </div><br>
+    
+    <div class="field">
+      <%= f.label :가격평가 %>
+      <fieldset class="rating2">
+          <input type="radio" id="star5" name="review[price_eval]" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+          <input type="radio" id="star4" name="review[price_eval]" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+          <input type="radio" id="star3" name="review[price_eval]" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+          <input type="radio" id="star2" name="review[price_eval]" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+          <input type="radio" id="star1" name="review[price_eval]" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+      </fieldset> 
+    </div><br>
+    
+ 
+    
+    
+    <div class="field">
+      <%= f.label :서비스평가 %>
+      <!--<%= f.number_field :service_eval, class: 'form-control'%>-->
+      <fieldset class="rating3">
+          <input type="radio" id="star3-5" name="review[service_eval]" value="5" /><label class = "full" for="star3-5" title="Awesome - 5 stars"></label>
+          <input type="radio" id="star3-4" name="review[service_eval]" value="4" /><label class = "full" for="star3-4" title="Pretty good - 4 stars"></label>
+          <input type="radio" id="star3-3" name="review[service_eval]" value="3" /><label class = "full" for="star3-3" title="Meh - 3 stars"></label>
+          <input type="radio" id="star3-2" name="review[service_eval]" value="2" /><label class = "full" for="star3-2" title="Kinda bad - 2 stars"></label>
+          <input type="radio" id="star3-1" name="review[service_eval]" value="1" /><label class = "full" for="star3-1" title="Sucks big time - 1 star"></label>
+      </fieldset> 
+    </div><br>
+  
+    <div class="form-group">
+      <!--<%= f.label :contents %>-->
+      <%= f.text_area :contents, 'data-provider': :summernote %>
+    </div>
+
+     <br><br> 
+    <div class="actions text-right">
+      <%= f.submit '작성하기',class: 'btn btn-info'%>
+      <%= link_to '뒤로가기', reviews_path,class: 'btn btn-warning text-white' %>
+    </div>
+<% end %>
+

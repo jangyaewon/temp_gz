@@ -1,0 +1,39 @@
+<%= link_to 'New restaurant', new_restaurant_path %>
+<h1>공인맛집</h1>
+
+<form class="form-inline my-2 my-lg-0">
+  <input class="form-control w-75 p-3 restaurant-title" id= "search_something"type="search" placeholder="Search" aria-label="Search">
+ &nbsp;&nbsp;<button class="btn btn-outline-success my-2 my-sm-0" id ="search_btn">Search</button>
+</form>
+
+<div class="recomm-restaurant d-flex justify-content-start row">
+  
+</div>
+
+<hr>
+<% if user_signed_in? %>
+<!-- 로그인된 상태  -->
+<%= current_user.email%>
+<%= link_to '로그 아웃', destroy_user_session_path, method: "delete" %>
+<% else %>
+<!-- 로그아웃된 상태  -->
+<%= link_to '로그인', new_user_session_path %>
+<%  end %>
+<hr>
+
+<script>
+  $(document).on('ready',function(){
+    $( "#search_btn" ).click(function(e) {
+      e.preventDefault();
+      var something = $( "#search_something" ).val();
+      // $( "#search_something" ).html('');
+      console.log(something);
+      $.ajax({
+        url: '/restaurants/search_restaurant',
+        data: {
+          q: something
+        }
+      })
+    });
+  });
+</script>
