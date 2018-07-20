@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180720002343) do
+ActiveRecord::Schema.define(version: 20180720055149) do
 
   create_table "districts", force: :cascade do |t|
     t.string   "district_name"
@@ -60,6 +60,14 @@ ActiveRecord::Schema.define(version: 20180720002343) do
     t.integer  "road_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.text     "contents"
+  end
+
+  create_table "restaurants_tags", id: false, force: :cascade do |t|
+    t.integer "restaurant_id"
+    t.integer "tag_id"
+    t.index ["restaurant_id"], name: "index_restaurants_tags_on_restaurant_id"
+    t.index ["tag_id"], name: "index_restaurants_tags_on_tag_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -91,6 +99,12 @@ ActiveRecord::Schema.define(version: 20180720002343) do
 
   create_table "states", force: :cascade do |t|
     t.string   "state_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

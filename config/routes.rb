@@ -28,7 +28,7 @@ Rails.application.routes.draw do
     end
     
     collection do
-    
+      get '/hashtags/:name' => 'restaurants#hashtags' ,as: 'hashtag'
       get '/search_restaurant' => 'restaurants#search_restaurant'
       get '/search_result' => 'restaurants#search_result'
     end

@@ -15,6 +15,11 @@
 
 </style>
 <h1 id="title"><%= @restaurant.res_name%>을(를) <%= @restaurant.scrabs.size %> 명이 좋아합니다. </h1>
+    <p>
+         <% @restaurant.tags.each do |tag| %>
+                 <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
+         <% end %>
+    </p>
 <hr>
 <p style="margin-top:-12px">
     <em class="link">

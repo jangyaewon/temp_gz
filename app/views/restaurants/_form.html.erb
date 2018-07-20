@@ -4,10 +4,7 @@
      <%= f.text_field :res_name, class: "form-control" %> 
   </div>  
 
-   <div class="form-group">
-     <%= f.label :지점명 %>
-     <%= f.text_field :branch_name, placeholder:"지점이 하나일 경우, 본점으로 입력",class: "form-control" %> 
-  </div>
+   
    <div class="form-group">
      <%= f.label :상세주소 %>
      <%= f.text_field :detail_addr, class: "form-control" %> 
@@ -18,17 +15,11 @@
      <%= f.text_field :food_type, placeholder:"예)한식,중식,일식,양식,기타",class: "form-control" %> 
   </div>
   
-
-  
   <div class="form-group">
-     <%= f.label :open %>
-     <%= f.text_area :open_hour, class: "form-control" %> 
+     <%= f.label :소개글 %>
+     <%= f.text_area :contents, class: "form-control" %> 
   </div>
   
-  <div class="form-group">
-     <%= f.label :close %>
-     <%= f.text_area :close_hour, class: "form-control" %> 
-  </div>
   
   <div class="form-group">
      <%= f.label :최소가격 %>
