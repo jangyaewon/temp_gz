@@ -25,7 +25,7 @@ class KakaoController < ApplicationController
       if @restaurant.nil?
         @text2 = "해당 위치에 대한 결과값이 없네요...."
       else
-        @text2 = @restaurant.res_name + "을(를) 추천합니다.\n\n 최근 6개월 간 " + @restaurant.g_name + "이(가) " + @restaurant.r_count  + "번 방문한 곳입니다."
+        @text2 = @restaurant.res_name + "을(를) 추천합니다.\n\n 최근 6개월 간 " + @restaurant.g_name + "이(가) " + @restaurant.r_count + "번 방문한 곳입니다."
       end  
     end
     

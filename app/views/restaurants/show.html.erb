@@ -14,7 +14,8 @@
 
 
 </style>
-<h1 id="title">식당 <%= @restaurant.scrabs.size %> 명이 좋아합니다. 
+<h1 id="title"><%= @restaurant.res_name%>을(를) <%= @restaurant.scrabs.size %> 명이 좋아합니다. </h1>
+<hr>
 <p style="margin-top:-12px">
     <em class="link">
         <br>
@@ -24,25 +25,22 @@
     </em>
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
-
-
-
- <p align = "right">
-
- 
+<br><br>
   <!--스크랩-->
-
+    <% if user_signed_in? %>
+     <p align = "right">
       <% if current_user.is_scrab? (@restaurant) %>
            <%= link_to "스크랩 취소", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
       <% else %>
           <%= link_to "스크랩", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
       <% end %>
-   
-  
+
+
   <!--리뷰작성-->
   <%= link_to "리뷰작성", new_review_path(restaurant_id: @restaurant.id),class: "btn btn-secondary"%>
  </p>
-</h1>
+<%end%>
+
 
 <hr>
 

@@ -38,7 +38,8 @@ class ReviewsController < ApplicationController
     # end
       
     if @review.save
-      redirect_to @review, flash:{success: 'Review was successfully created.'}
+      # redirect_to @review, flash:{success: 'Review was successfully created.'}
+        redirect_to restaurant_url(@review.restaurant_id), flash:{success: 'Review was successfully created.'}
     else
       render :new
     end
