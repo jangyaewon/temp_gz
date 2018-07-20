@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180719015216) do
+ActiveRecord::Schema.define(version: 20180720002343) do
 
   create_table "districts", force: :cascade do |t|
     t.string   "district_name"
@@ -42,19 +42,19 @@ ActiveRecord::Schema.define(version: 20180719015216) do
 
   create_table "restaurants", force: :cascade do |t|
     t.string   "res_name"
-    t.string   "branch_name"
     t.string   "detail_addr"
+    t.string   "latitude"
+    t.string   "longitude"
     t.string   "food_type"
     t.string   "image_path"
     t.string   "parking"
-    t.string   "open_hour"
-    t.string   "close_hour"
-    t.integer  "min_price"
-    t.integer  "max_price"
     t.string   "phone"
     t.string   "b_number"
-    t.string   "breaktime"
-    t.string   "holiday"
+    t.string   "g_name"
+    t.integer  "r_count"
+    t.integer  "min_price"
+    t.integer  "max_price"
+    t.text     "b_hour"
     t.integer  "state_id"
     t.integer  "district_id"
     t.integer  "road_id"
@@ -111,7 +111,6 @@ ActiveRecord::Schema.define(version: 20180719015216) do
     t.string   "provider"
     t.string   "name"
     t.string   "uid"
-    t.integer  "like_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

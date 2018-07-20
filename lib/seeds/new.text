@@ -1,0 +1,106 @@
+<State>
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'seoul_dong.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+   s = State.new
+   s1 = State.where(state_name: row['시도명'])[0]
+   p row['시도명']
+   
+   if s1.nil?
+    s.state_name = row['시도명']
+    s.save
+   end
+end
+
+
+--> 세종특별자치시는 구가 없다.
+
+<District>
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'seoul_dong.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+   d = District.new
+   s1 = State.where(state_name: row['시도명'])[0]
+   d1 = District.where(state_id: s1.id, district_name: row['시군구명'])[0]
+   p row['시군구명']
+   
+   if d1.nil?
+    d.district_name = row['시군구명']
+    d.state_id = s1.id
+    d.save
+   end
+end
+
+
+
+<Road>
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'seoul_dong.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+   r = Road.new
+   s1 = State.where(state_name: row['시도명'])[0]
+   d1 = District.where(state_id: s1.id, district_name: row['시군구명'])[0]
+   r1 = Road.where(state_id: s1.id, district_id: d1.id, road_name: row['읍면동명'])[0]
+   p row['읍면동명']
+   
+   if r1.nil?
+    r.road_name = row['읍면동명']
+    r.state_id = s1.id
+    r.district_id = d1.id
+    r.save
+   end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+----> 서울만 있는 데이터라 이렇게 쓴거
+<식당>
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'woman.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+ 
+  r = Restaurant.new
+  r =Restaurant.where(res_name: row['사용장소'], detail_addr: row['상세주소'])[0]
+  
+  if r.nil?
+    r1 = Restaurant.new
+    ro = Road.new
+    ro = Road.find_by_road_name(row['road2'])
+    p ro.id
+    
+    r1.g_name = row['사용기관']
+    r1.res_name = row['사용장소']
+    r1.detail_addr = row['상세주소']
+    r1.food_type = row['종류']
+    r1.state_id = 1
+    r1.road_id = ro.id
+    r1.district_id = ro.district_id
+    r1.r_count = 1
+    r1.latitude = row['Latitude']
+    r1.longitude = row['Longitude']
+    r1.save
+    p row['road2']
+  else
+    r.r_count += 1 
+    r.save
+  end
+  
+end

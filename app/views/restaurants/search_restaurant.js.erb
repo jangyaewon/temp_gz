@@ -1,6 +1,6 @@
-console.log("찾음");
 
- $('.recomm-restaurant').html(`
+<br>
+  <div class="recomm-restaurant d-flex justify-content-start row">
   <% @restaurants.each do |restaurant| %>
    <div class="card col-md-3">
    <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
@@ -14,4 +14,5 @@ console.log("찾음");
   </div>
 </div>
 <%  end %>
- `);
+  
+</div>

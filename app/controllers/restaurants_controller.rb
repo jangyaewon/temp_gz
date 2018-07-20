@@ -68,7 +68,7 @@ class RestaurantsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+###############################################  
  #식당 검색
   def search_restaurant
     respond_to do |format|
@@ -80,8 +80,16 @@ class RestaurantsController < ApplicationController
       end
     end
   end
-
- 
+###########################################################
+  def search_result
+    temp = params[:query][0..1]
+    @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc')
+     respond_to do |format|
+      format.html { render :action => "search_result" }
+      format.xml  { render :xml => @restaurants }
+    end
+  end
+############################################ 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant

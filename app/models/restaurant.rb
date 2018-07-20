@@ -18,5 +18,10 @@ class Restaurant < ApplicationRecord
         @tmp.res_name
     end
  
+    def self.search_restaurant_ad(condition)
+        unless condition.strip.empty?
+            Restaurant.where("detail_addr LIKE ?","%#{condition}%")
+        end
+    end
    
 end

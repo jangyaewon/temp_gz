@@ -1,0 +1,16 @@
+<%= link_to 'New restaurant', new_restaurant_path %>
+
+<% if user_signed_in? %>
+<!-- 로그인된 상태  -->
+<%= current_user.email%>
+<%= link_to '로그 아웃', destroy_user_session_path, method: "delete" %>
+<% else %>
+<!-- 로그아웃된 상태  -->
+<%= link_to '로그인', new_user_session_path %>
+<%  end %>
+<hr>
+<h1>공인맛집</h1>
+<%= form_tag search_result_restaurants_path, :method => :get do %>
+<%= text_field_tag :query, params[:query] %> <%= submit_tag "Search!" %>
+<% end %>
+

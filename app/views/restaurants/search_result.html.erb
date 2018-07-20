@@ -1,15 +1,280 @@
-<div id= "title" class="row">
-<% @restaurants.each do |restaurant| %>
-<div class="card col-md-3">
-  <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
-  <div class="card-body">
+
+    <style>
+#mapwrap{position:relative;overflow:hidden;}
+.category, .category *{margin:0;padding:0;color:#000;}   
+.category {position:absolute;overflow:hidden;top:10px;left:10px;width:150px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+.category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;} 
+.category li{list-style:none;float:left;width:50px;height:45px;padding-top:5px;cursor:pointer;} 
+.category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:26px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;} 
+.category .ico_coffee {background-position:-10px 0;}  
+.category .ico_store {background-position:-10px -36px;}   
+.category .ico_carpark {background-position:-10px -72px;} 
+</style>
+
+<div id="mapwrap"> 
+    <!-- 지도가 표시될 div -->
+    <div id="map" style="width:100%;height:350px;"></div>
+    <!-- 지도 위에 표시될 마커 카테고리 -->
+    <div class="category">
+        <ul>
+            <li id="k_menu" onclick="changeMarker('korean')">
+                <span class="ico_comm ico_coffee"></span>
+                커피숍
+            </li>
+            <li id="j_menu" onclick="changeMarker('japanese')">
+                <span class="ico_comm ico_store"></span>
+                편의점
+            </li>
+            <li id="other_menu" onclick="changeMarker('other')">
+                <span class="ico_comm ico_carpark"></span>
+                주차장
+            </li>
+        </ul>
+    </div>
+</div>
+
+<br>
+  <div class="recomm-restaurant d-flex justify-content-start row">
+  <% @restaurants.each do |restaurant| %>
+   <div class="card col-md-3">
+   <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
+   <div class="card-body">
     <h5 class="card-title"><span><%= restaurant.res_name%></span></h5>
     <p class="card-text"><%= restaurant.food_type%></p>
-    <p class="card-text"><%= restaurant.detail_addr%></p>
-    <p class="card-text"><%= restaurant.phone%></p>
+    <p class="card-text"><%= restaurant.g_name%>이(가) <%= restaurant.r_count%>번 방문한 식당입니다.</p>
+   
     
     <%= link_to '식당 정보보기', restaurant_path(restaurant), class: 'btn btn-primary' %>
   </div>
 </div>
 <%  end %>
+  
 </div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
+<script>
+var koreanPositions = [];// 커피숍 마커가 표시될 좌표 배열입니다
+var japanesePositions = [];// 편의점 마커가 표시될 좌표 배열입니다
+var otherPositions = [];// 주차장 마커가 표시될 좌표 배열입니다
+
+var korean_name =[];
+var japanese_name =[];
+var other_name =[];
+ <% @restaurants.each do |restaurant| %>
+     var resP = new daum.maps.LatLng(<%= restaurant.latitude%>,<%= restaurant.longitude%>);
+     
+     if ("<%= restaurant.food_type%>" == "한식"){
+         koreanPositions.push(resP)
+         korean_name.push("<%= restaurant.res_name%>")
+     }else if ("<%= restaurant.food_type%>" == "일식"){
+         japanesePositions.push(resP) 
+         japanese_name.push("<%= restaurant.res_name%>")
+     }else{
+         otherPositions.push(resP)
+         other_name.push("<%= restaurant.res_name%>")
+     }
+        
+        
+ <% end %>
+ 
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+    mapOption = { 
+        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 
+        level: 4 // 지도의 확대 레벨 
+    }; 
+
+var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
+var bounds_k = new daum.maps.LatLngBounds();   
+var bounds_j = new daum.maps.LatLngBounds();  
+var bounds_o = new daum.maps.LatLngBounds();  
+
+function setBounds(bounds) {
+    // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+    // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+    map.setBounds(bounds);
+    map.setLevel(5);
+}
+   
+
+var markerImageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png';  // 마커이미지의 주소입니다. 스프라이트 이미지 입니다
+    koreanMarkers = [], // 커피숍 마커 객체를 가지고 있을 배열입니다
+    japaneseMarkers = [], // 편의점 마커 객체를 가지고 있을 배열입니다
+    otherMarkers = []; // 주차장 마커 객체를 가지고 있을 배열입니다
+
+    
+createKoreanMarkers(); // 커피숍 마커를 생성하고 커피숍 마커 배열에 추가합니다
+createJapaneseMarkers(); // 편의점 마커를 생성하고 편의점 마커 배열에 추가합니다
+createOtherMarkers(); // 주차장 마커를 생성하고 주차장 마커 배열에 추가합니다
+
+changeMarker('korean'); // 지도에 커피숍 마커가 보이도록 설정합니다    
+
+
+// 마커이미지의 주소와, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
+function createMarkerImage(src, size, options) {
+    var markerImage = new daum.maps.MarkerImage(src, size, options);
+    return markerImage;            
+}
+
+// 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
+function createMarker(position, image) {
+    var marker = new daum.maps.Marker({
+        position: position,
+        image: image
+    });
+    
+    return marker;  
+}   
+   
+// 커피숍 마커를 생성하고 커피숍 마커 배열에 추가하는 함수입니다
+function createKoreanMarkers() {
+    
+    for (var i = 0; i < koreanPositions.length; i++) {  
+        
+        var imageSize = new daum.maps.Size(22, 26),
+            imageOptions = {  
+                spriteOrigin: new daum.maps.Point(10, 0),    
+                spriteSize: new daum.maps.Size(36, 98)  
+            };     
+        
+        // 마커이미지와 마커를 생성합니다
+        var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),    
+            marker = createMarker(koreanPositions[i], markerImage);  
+        
+        var infowindow = new daum.maps.InfoWindow({
+            content: `<div style='width:150px;text-align:center;padding:6px 0;'>`+korean_name[i]+`<br><a href="http://map.daum.net/link/to/`+korean_name[i]+","+koreanPositions[i].getLat()+","+koreanPositions[i].getLng()+`" style="color:blue" target="_blank">길찾기</a></div>`,
+            removable : true
+        });
+
+        daum.maps.event.addListener(marker, 'click', makeOverListener(map, marker, infowindow));
+    
+
+        // 생성된 마커를 커피숍 마커 배열에 추가합니다
+        koreanMarkers.push(marker);
+    }     
+}
+
+function makeOverListener(map, marker, infowindow) {
+    return function() {
+        infowindow.open(map, marker);
+    };
+}
+
+// 커피숍 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setKoreanMarkers(map) {        
+    for (var i = 0; i < koreanMarkers.length; i++) {  
+        koreanMarkers[i].setMap(map);
+    }        
+}
+
+// 편의점 마커를 생성하고 편의점 마커 배열에 추가하는 함수입니다
+function createJapaneseMarkers() {
+    for (var i = 0; i < japanesePositions.length; i++) {
+        
+        var imageSize = new daum.maps.Size(22, 26),
+            imageOptions = {   
+                spriteOrigin: new daum.maps.Point(10, 36),    
+                spriteSize: new daum.maps.Size(36, 98)  
+            };       
+     
+        // 마커이미지와 마커를 생성합니다
+        var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),    
+            marker = createMarker(japanesePositions[i], markerImage);  
+
+        // 생성된 마커를 편의점 마커 배열에 추가합니다
+        japaneseMarkers.push(marker); 
+    }        
+}
+
+// 편의점 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setJapaneseMarkers(map) {        
+    for (var i = 0; i < japaneseMarkers.length; i++) {  
+        japaneseMarkers[i].setMap(map);
+    }        
+}
+
+// 주차장 마커를 생성하고 주차장 마커 배열에 추가하는 함수입니다
+function createOtherMarkers() {
+    for (var i = 0; i < otherPositions.length; i++) {
+        
+        var imageSize = new daum.maps.Size(22, 26),
+            imageOptions = {   
+                spriteOrigin: new daum.maps.Point(10, 72),    
+                spriteSize: new daum.maps.Size(36, 98)  
+            };       
+     
+        // 마커이미지와 마커를 생성합니다
+        var markerImage = createMarkerImage(markerImageSrc, imageSize, imageOptions),    
+            marker = createMarker(otherPositions[i], markerImage);  
+
+        // 생성된 마커를 주차장 마커 배열에 추가합니다
+        otherMarkers.push(marker);  
+    }                
+}
+
+// 주차장 마커들의 지도 표시 여부를 설정하는 함수입니다
+function setOtherMarkers(map) {        
+    for (var i = 0; i < otherMarkers.length; i++) {  
+        otherMarkers[i].setMap(map);
+    }        
+}
+
+// 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
+function changeMarker(type){
+    
+    var k_menu = document.getElementById('k_menu');
+    var j_menu = document.getElementById('j_menu');
+    var other_menu = document.getElementById('other_menu');
+    
+    // 커피숍 카테고리가 클릭됐을 때
+    if (type === 'korean') {
+    
+        // 커피숍 카테고리를 선택된 스타일로 변경하고
+        k_menu.className = 'menu_selected';
+        
+        // 편의점과 주차장 카테고리는 선택되지 않은 스타일로 바꿉니다
+        j_menu.className = '';
+        other_menu.className = '';
+        
+        // 커피숍 마커들만 지도에 표시하도록 설정합니다
+        setKoreanMarkers(map);
+        setJapaneseMarkers(null);
+        setOtherMarkers(null);
+
+        bounds_k.extend(koreanPositions[0]);
+        setBounds(bounds_k);
+    } else if (type === 'japanese') { // 편의점 카테고리가 클릭됐을 때
+    
+        // 편의점 카테고리를 선택된 스타일로 변경하고
+        k_menu.className = '';
+        j_menu.className = 'menu_selected';
+        other_menu.className = '';
+        
+        // 편의점 마커들만 지도에 표시하도록 설정합니다
+        setKoreanMarkers(null);
+        setJapaneseMarkers(map);
+        setOtherMarkers(null);
+        
+        bounds_j.extend(japanesePositions[0]);
+        setBounds(bounds_j);
+    } else if (type === 'other') { // 주차장 카테고리가 클릭됐을 때
+     
+        // 주차장 카테고리를 선택된 스타일로 변경하고
+        k_menu.className = '';
+        j_menu.className = '';
+        other_menu.className = 'menu_selected';
+        
+        // 주차장 마커들만 지도에 표시하도록 설정합니다
+        setKoreanMarkers(null);
+        setJapaneseMarkers(null);
+        setOtherMarkers(map);  
+        
+        bounds_o.extend(otherPositions[0]);
+        setBounds(bounds_o);
+    }    
+} 
+</script>
+</body>
+</html>

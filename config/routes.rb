@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get '/keyboard' => 'kakao#keyboard'
+  post '/message' => 'kakao#message'
+
   resources :reviews
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   resources :users, :only => [:show]
@@ -27,6 +30,7 @@ Rails.application.routes.draw do
     collection do
     
       get '/search_restaurant' => 'restaurants#search_restaurant'
+      get '/search_result' => 'restaurants#search_result'
     end
     
   end

@@ -44,7 +44,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   
   #카카오 로그인
   def kakao
-    redirect_to "https://kauth.kakao.com/oauth/authorize?client_id=#{ENV['KAKAO_REST_API_KEY']}&redirect_uri=https://test-aaaraming.c9users.io/users/auth/kakao/callback&response_type=code"
+    redirect_to "https://kauth.kakao.com/oauth/authorize?client_id=#{ENV['KAKAO_REST_API_KEY']}&redirect_uri=https://git-wonwon.c9users.io/users/auth/kakao/callback&response_type=code"
   end
   
   def kakao_auth
@@ -52,7 +52,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     base_url = "https://kauth.kakao.com/oauth/token"
     base_response = RestClient.post(base_url,{grant_type: 'authorization_code',
                                               client_id: ENV['KAKAO_REST_API_KEY'],
-                                              redirect_uri: 'https://test-aaaraming.c9users.io/users/auth/kakao/callback',
+                                              redirect_uri: 'https://git-wonwon.c9users.io/users/auth/kakao/callback',
                                               code: code})
                                    
     #JSON으로 날라온것을 해시로          
