@@ -12,6 +12,7 @@ class Restaurant < ApplicationRecord
     has_many         :users, through: :scrabs
     has_many         :reviews
 
+    paginates_per 8
     
     def search_restaurant(review)
         @tmp  = Restaurant.where("id LIKE ?","#{review.restaurant_id}")[0]

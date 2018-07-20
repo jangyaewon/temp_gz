@@ -83,7 +83,7 @@ class RestaurantsController < ApplicationController
 ###########################################################
   def search_result
     temp = params[:query][0..1]
-    @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc')
+    @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc').page params[:page]
      respond_to do |format|
       format.html { render :action => "search_result" }
       format.xml  { render :xml => @restaurants }

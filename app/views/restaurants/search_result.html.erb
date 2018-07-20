@@ -43,14 +43,12 @@
     <p class="card-text"><%= restaurant.food_type%></p>
     <p class="card-text"><%= restaurant.g_name%>이(가) <%= restaurant.r_count%>번 방문한 식당입니다.</p>
    
-    
     <%= link_to '식당 정보보기', restaurant_path(restaurant), class: 'btn btn-primary' %>
   </div>
 </div>
 <%  end %>
-  
 </div>
-
+<%= paginate @restaurants, theme: 'twitter-bootstrap-3' %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
 <script>
