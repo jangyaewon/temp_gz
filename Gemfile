@@ -6,7 +6,11 @@ git_source(:github) do |repo_name|
 end
 
 #beautify
-gem 'bootstrap','~>4.1.1'
+gem 'bootstrap-sass'
+
+#font-awesome
+gem 'font-awesome-rails'
+
 #authentication
 gem 'devise'
 #file upload
