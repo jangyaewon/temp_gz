@@ -1,3 +1,20 @@
+<style>
+    h1 {
+    font-family: 'Yeon Sung', cursive;
+    }
+    h2 {
+        font-family: 'Yeon Sung', cursive;
+        font-size :10pt;
+    }
+    .search-field{
+        display: -webkit-inline-box !important;
+        width:  90% !important;
+    }
+    .btn-dark {
+        float: right;
+    }
+
+</style>
   <header id="header">
         <div class="header-top-bar">
 
@@ -11,21 +28,23 @@
                 <div class="row">
                   <div class="col-md-3 col-sm-3">
                     <div class="logo-section">
-                      <img src="<%= asset_path 'logo-bu.png'%>" alt="">
+                     <img src="<%= asset_path 'logo-bu.png'%>" alt="">
                     </div>
                   </div>
-                    <!--상단 search바 -->
-                    <div class="col-md-6 col-sm-5">
-                         <div class="search-form">
-                               <form action="#">
-                                 <button class="dropdown-search"><i class="fa fa-caret-down"></i> 
-                                 <i class="fa fa-bars"></i></button>
-                                   <%= form_tag search_result_restaurants_path, :class => 'topbar-search-input', :method => :get do %>
-                    				<%= text_field_tag :query, params[:query] %> <%= submit_tag "fa fa-search", :class => "search-button" %>
-                    			  <% end %>
-                                </form>
-                    	</div>
+
+                  <!--상단 search바 -->
+                  <div class="col-md-6 col-sm-5">
+                    <div class="search-form">
+
+                      <form action="/restaurants/search_result" accept-charset="UTF-8" method="get">
+                        <input name="utf8" type="hidden" value="✓">
+                        <input type="search" name="query" id="query" placeholder="Search..." class="topbar-search-input">
+                        <button class="search-button" name="commit"><i class="fa fa-search"></i></button>
+                      </form>
+
                     </div>
+                  </div>
+                  <!---->
 
                   <div class="col-md-3 col-sm-4">
                     <div class="notification-section text-right">
@@ -62,22 +81,29 @@
                     </div>
                   </div>
 
+                  <!--상단 search바 -->
                   <div class="col-md-6 col-sm-5">
                     <div class="search-form">
 
-                      <form action="#">
-                        <button class="dropdown-search"><i class="fa fa-caret-down"></i> <i class="fa fa-bars"></i></button>
-                        <input type="search" placeholder="Search..." class="topbar-search-input">
-                        <button class="search-button"><i class="fa fa-search"></i></button>
+                      <form action="/restaurants/search_result" accept-charset="UTF-8" method="get">
+                       <input name="utf8" type="hidden" value="✓">
+                        <input type="search" name="query" id="query" placeholder="Search..." class="topbar-search-input">
+                        <button class="search-button" name="commit"><i class="fa fa-search"></i></button>
                       </form>
 
                     </div>
                   </div>
+                  <!---->
 
                   <div class="col-md-3 col-sm-4">
                     <div class="notification-section text-right">
                       <ul class="list-inline">
-                        <li><%= link_to "Login", "/users/sign_in" %></li>
+                        <% if user_signed_in? %>
+                          <li><%= link_to "#{current_user.email}", user_path(current_user.id) %></li>
+                          <li><%= link_to '로그 아웃', destroy_user_session_path, method: "delete" %></li>
+                        <%else%>
+                          <li><%= link_to "Login", "/users/sign_in" %></li>
+                        <%end%>
                       </ul>
                     </div>
                   </div>

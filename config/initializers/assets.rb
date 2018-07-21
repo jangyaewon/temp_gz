@@ -10,4 +10,10 @@ Rails.application.config.assets.version = '1.0'
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( star-rating.js
 Rails.application.config.assets.precompile += %w( restaurants.js
-                                                  restaurants.scss)
+                                                  restaurants.scss
+                                                  reviews.js
+                                                  reviews.scss
+                                                  scrabs.js
+                                                  scrabs.scss
+                                                  users.js
+                                                  users.scss)

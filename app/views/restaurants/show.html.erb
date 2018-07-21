@@ -12,9 +12,29 @@
    color: #F1599E;
 }
 
+.like{
+    font-family: 'Yeon Sung', cursive;	
+}
+
+.btn{
+    float: right !important;
+}
 
 </style>
-<h1 id="title"><%= @restaurant.res_name%>을(를) <%= @restaurant.scrabs.size %> 명이 좋아합니다. </h1>
+<h1 id="title"><%= @restaurant.res_name%>을(를) <%= @restaurant.scrabs.size %> 명이 좋아합니다. 
+  <!--스크랩-->
+    <% if user_signed_in? %>
+     
+      <% if current_user.is_scrab? (@restaurant) %>
+           <%= link_to "스크랩 취소", new_scrab_path(restaurant_id: @restaurant.id),class: "btn",method: "POST"%>
+      <% else %>
+          <%= link_to "스크랩", new_scrab_path(restaurant_id: @restaurant.id),class: "btn",method: "POST"%>
+      <% end %>
+      <!--리뷰작성-->
+      <%= link_to "리뷰작성", new_review_path(restaurant_id: @restaurant.id),class: "btn"%>
+   
+    <%end%>
+</h1>
     <p>
          <% @restaurant.tags.each do |tag| %>
                  <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
@@ -31,20 +51,6 @@
 </p>
 <div id="map" style="width:100%;height:350px;"></div>
 <br><br>
-  <!--스크랩-->
-    <% if user_signed_in? %>
-     <p align = "right">
-      <% if current_user.is_scrab? (@restaurant) %>
-           <%= link_to "스크랩 취소", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
-      <% else %>
-          <%= link_to "스크랩", new_scrab_path(restaurant_id: @restaurant.id),class: "btn btn-primary",method: "POST"%>
-      <% end %>
-
-
-  <!--리뷰작성-->
-  <%= link_to "리뷰작성", new_review_path(restaurant_id: @restaurant.id),class: "btn btn-secondary"%>
- </p>
-<%end%>
 
 
 <hr>
@@ -87,12 +93,12 @@
       
               
         
-          <p>
+          <p align ="right">
             <% if current_user.is_like?(review) %>
-                  <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"> 좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
+                  <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"><i class="fa fa-thumbs-o-up"> </i>좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
             <% else %>
             
-                  <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"> 좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                  <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
             <% end %>
           </p>
       
@@ -103,21 +109,15 @@
 
 
 <hr>
-<% if user_signed_in? %>
-<!-- 로그인된 상태  -->
-<%= link_to "#{current_user.email}", user_path %>
-<%= link_to '로그 아웃', destroy_user_session_path, method: "delete" %>
-<% else %>
-<!-- 로그아웃된 상태  -->
-<%= link_to '로그인', new_user_session_path %>
-<%  end %>
+
+
 
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
 
-<script>
 
+<script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = {
         center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -174,7 +174,7 @@ $(document).on('ready', function() {
       	
       	console.log(flag + "2");
       	flag = "true";
-      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> 좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
+      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> <i class="fa fa-thumbs-o-up"></i>좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
       
       	$.ajax({
       		url: "/likes/" + review_id
@@ -188,7 +188,7 @@ $(document).on('ready', function() {
       	
       	console.log(flag + "3");
       	flag = "false";
-        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> 좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
+        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> <i class="fa fa-thumbs-o-up"></i>좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
       
       	$.ajax({
       		url: "/likes/" + review_id
@@ -200,3 +200,6 @@ $(document).on('ready', function() {
 });
 </script>
 
+<% content_for 'javascript_content' do %>
+<%= javascript_include_tag params[:controller] %>
+<% end %>
