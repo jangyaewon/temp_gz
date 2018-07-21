@@ -84,6 +84,9 @@
                       </div><!-- end .aplicant-details-show -->
                     </div> <!-- end .language-print -->
                             <!--해시태그-->
+                          <% restaurant.tags.each do |tag| %>
+                             <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
+                          <% end %>  
                           <div class="additional-skills">
                             <ul class="list-inline">
                               <li><a href="#">Work Permit</a></li>

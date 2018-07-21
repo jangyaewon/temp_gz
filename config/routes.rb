@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   end
   
   get 'users/:id' => 'users#show'
-  #스크랩 확인용
-  get 'users/users/show_scrab' => 'users#show_scrab'
   root 'restaurants#index'
   
   resources :reviews

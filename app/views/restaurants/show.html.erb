@@ -94,12 +94,15 @@
               
         
           <p align ="right">
-            <% if current_user.is_like?(review) %>
-                  <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"><i class="fa fa-thumbs-o-up"> </i>좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
-            <% else %>
-            
-                  <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
-            <% end %>
+           <% if user_signed_in? %>      
+                <% if current_user.is_like?(review) %>
+                      <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"><i class="fa fa-thumbs-o-up"> </i>좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
+                <% else %>
+                      <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                <% end %>
+           <% else %>
+                <button class="like" ><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+           <% end %>
           </p>
       
       
@@ -156,14 +159,13 @@ geocoder.addressSearch("<%=@restaurant.detail_addr%>", function(result, status) 
     }
     marker.setMap(map);
 });   
+</script>
 
-
-
-$(document).on('ready', function() {
-    
-    
-    
-   $('.like').on('click',function(){
+<% content_for 'javascript_contents' do %>
+<%= javascript_include_tag params[:controller] %>
+<script type="text/javascript">
+$(document).ready(function () {
+  $('.like').on('click',function(){
       var review_id =  $(this).attr('data-id');
       var flag = $(`#flag-${review_id}`).val();
       console.log(flag + "1");
@@ -193,13 +195,8 @@ $(document).on('ready', function() {
       	$.ajax({
       		url: "/likes/" + review_id
       	})
-    
-      	
       }  
-   });   
-});
+   });   	
+})
 </script>
-
-<% content_for 'javascript_content' do %>
-<%= javascript_include_tag params[:controller] %>
 <% end %>

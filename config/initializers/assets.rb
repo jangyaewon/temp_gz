@@ -16,4 +16,5 @@ Rails.application.config.assets.precompile += %w( restaurants.js
                                                   scrabs.js
                                                   scrabs.scss
                                                   users.js
-                                                  users.scss)
+                                                  users.scss
+                                                  devise/sessions.css )

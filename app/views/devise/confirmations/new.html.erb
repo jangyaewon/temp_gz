@@ -12,6 +12,4 @@
     <%= f.button :submit, "Resend confirmation instructions" %>
   </div>
 <% end %>
-<% content_for 'javascript_content' do %>
-<%= javascript_include_tag params[:controller] %>
 <%= render "devise/shared/links" %>
