@@ -83,20 +83,14 @@
                         <p><%= restaurant.g_name%>이(가) <%= restaurant.r_count%>번 방문한 식당입니다. </p>
                       </div><!-- end .aplicant-details-show -->
                     </div> <!-- end .language-print -->
-                            <!--해시태그-->
-                          <% restaurant.tags.each do |tag| %>
-                             <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
-                          <% end %>  
-                          <div class="additional-skills">
-                            <ul class="list-inline">
-                              <li><a href="#">Work Permit</a></li>
-                              <li><a href="#">5 Years Experience</a></li>
-                              <li><a href="#">MBA</a></li>
-                              <li><a href="#">Magento Certifies</a></li>
-                              <li><a href="#">Parfect Written &amp; Spoken English</a></li>
-                            </ul>
-                          </div> <!-- end .addintional-skills -->
-                         <hr style="border: solid 1px gray;">
+                             <div class="additional-skills">
+                           <ul class="list-inline">
+                            <% restaurant.tags.each do |tag| %>
+                               <li><%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %></li>
+                            <% end %>  
+                           </ul>
+                        </div> 
+                        <hr>
                 <%  end %>
 
 

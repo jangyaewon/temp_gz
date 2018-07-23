@@ -1,15 +1,132 @@
-<div id= "title" class="row">
-<% @restaurants.each do |restaurant| %>
-<div class="card col-md-3">
-  <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
-  <div class="card-body">
-    <h5 class="card-title"><span><%= restaurant.res_name%></span></h5>
-    <p class="card-text"><%= restaurant.food_type%></p>
-    <p class="card-text"><%= restaurant.detail_addr%></p>
-    <p class="card-text"><%= restaurant.phone%></p>
-  
-    <%= link_to '식당 정보보기', restaurant_path(restaurant), class: 'btn btn-primary' %>
-  </div>
-</div>
-<%  end %>
-</div>
+<!doctype html>
+<html lang="en">
+<style>
+#mapwrap{position:relative;overflow:hidden;}
+.category, .category *{margin:0;padding:0;color:#000;}   
+.category {position:absolute;overflow:hidden;top:10px;left:10px;width:150px;height:50px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+.category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;} 
+.category li{list-style:none;float:left;width:50px;height:45px;padding-top:5px;cursor:pointer;} 
+.category .ico_comm {display:block;margin:0 auto 2px;width:22px;height:26px;background:url('http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png') no-repeat;} 
+.category .ico_coffee {background-position:-10px 0;}  
+.category .ico_store {background-position:-10px -36px;}   
+.category .ico_carpark {background-position:-10px -72px;}     
+</style>
+  <head>
+    <!-- Stylesheets -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="main-wrapper" class="our-agents-content">
+
+      <!-- Page Content -->
+
+      <div id="page-content" class="page-content pt60">
+        <div class="container">
+          <div class="row">
+
+            <div class="page-content">
+              <div id="mapwrap" class="white-container">
+                  <!--지도-->
+                    <!-- 지도가 표시될 div -->
+                    <div id="map" style="width:100%;height:350px;"></div>
+                    <!-- 지도 위에 표시될 마커 카테고리 -->
+                    <div class="category">
+                        <ul>
+                            <li id="k_menu" onclick="changeMarker('korean')">
+                                <span class="ico_comm ico_coffee"></span>
+                                커피숍
+                            </li>
+                            <li id="j_menu" onclick="changeMarker('japanese')">
+                                <span class="ico_comm ico_store"></span>
+                                편의점
+                            </li>
+                            <li id="other_menu" onclick="changeMarker('other')">
+                                <span class="ico_comm ico_carpark"></span>
+                                주차장
+                            </li>
+                        </ul>
+                    </div>                  
+              </div>
+              <!--지도끝-->
+
+              <div class="view-sort clearfix mb20">
+                <div class="row">
+
+                  <div class="col-sm-5 main-title">
+                    <h3 class="client-registration-title">검색결과</h3>
+                  </div>
+
+                  <div class="col-sm-7">
+
+                  </div> <!-- end .end col-sm-5 grid-layout  -->
+                </div> <!-- end .row -->
+              </div> <!-- end .view-sort div -->
+              
+
+<!--1번 후보-->
+              <div class="candidate-description client-description applicants-content">
+
+                <% @restaurants.each do |restaurant| %>
+                    <div class="language-print client-des clearfix">
+                      <div class="aplicants-pic pull-left">
+                       <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
+                      </div>
+                      <!-- end .aplicants-pic -->
+                      <div class="clearfix">
+                        <div class="pull-left">
+                          <h3><%=link_to "#{restaurant.res_name}" , restaurant_path(restaurant)%></h3>
+                         
+                        </div>
+                      </div>
+                      <div class="aplicant-details-show clearfix">
+                        <p><%= restaurant.food_type%></p>
+                        <p><%= restaurant.g_name%>이(가) <%= restaurant.r_count%>번 방문한 식당입니다. </p>
+                      </div><!-- end .aplicant-details-show -->
+                    </div> <!-- end .language-print -->
+                            <!--해시태그-->
+                        <div class="additional-skills">
+                           <ul class="list-inline">
+                            <% restaurant.tags.each do |tag| %>
+                               <li><%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %></li>
+                            <% end %>  
+                           </ul>
+                        </div> <!-- end .addintional-skills -->
+                <%  end %>
+
+
+              </div> <!-- end .candidate-description -->
+
+        <!--카미나리-->
+              <div class="pagination-content clearfix">
+
+                <nav>
+                  <ul class="list-inline">
+                    <li><a class="btn btn-default first" href="#">first</a></li>
+                    <li><a class="btn btn-default previous" href="#">Previous</a></li>
+                    <li class="active"><a class="number" href="#">1</a></li>
+                    <li><a class="number" href="#">2</a></li>
+                    <li><a class="number" href="#">3</a></li>
+                    <li><a class="number" href="#">4</a></li>
+                    <li><a class="btn btn-default next" href="#">Next</a></li>
+                    <li><a class="btn btn-default last" href="#">Last</a></li>
+                  </ul>
+                </nav>
+              </div>
+        <!--카미나리-->
+
+
+
+
+
+            </div> <!-- end .page-content -->
+          </div>
+        </div> <!-- end .container -->
+      </div> <!-- end #page-content -->
+
+
+    </div>
+    <!-- end #main-wrapper -->
+
+    </body>
+  </html>

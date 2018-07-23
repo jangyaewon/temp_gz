@@ -14,8 +14,8 @@ class Restaurant < ApplicationRecord
     has_and_belongs_to_many :tags
     has_many         :postings
     
-    # after_commit :scan_hashtag_from_body, on: :create
-    # after_commit :update_hashtag_from_body, on: :update
+    after_commit :scan_hashtag_from_body, on: :create
+    after_commit :update_hashtag_from_body, on: :update
     
     paginates_per 8
     
