@@ -9,8 +9,7 @@ class User < ApplicationRecord
       has_many  :restaurants, through: :scrabs
       has_many  :reviews
       has_many  :likes
-      has_many  :nicknames
-      
+ 
    def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first
@@ -59,8 +58,9 @@ class User < ApplicationRecord
   #닉네임
   def has_nickname(user)
     @res = User.find_by(id: user.id)
-    random = Nickname.find(rand((Nickname.last.id + 1)))
-    @res.nickname = random.word
+     tmp = Nickname.find_by(id: user.id)
+    @res.nickname = tmp.word
+    @res.save
     @res.nickname
   end
           

@@ -25,7 +25,7 @@ class Restaurant < ApplicationRecord
  
     def self.search_restaurant_ad(condition)
         unless condition.strip.empty?
-            Restaurant.where("detail_addr LIKE ?","%#{condition}%")
+            Restaurant.where("res_name LIKE ?","%#{condition}%")
         end
     end
 

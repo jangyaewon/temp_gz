@@ -132,11 +132,8 @@
       </div> <!-- end #page-content -->
     </div> <!-- end #main-wrapper -->
 
-
-<% content_for 'javascript_contents' do %>
-<%= javascript_include_tag params[:controller] %>
 <script type="text/javascript">
-$(document).ready(function () {
+
   $(function(){     
     if (location.hash == "#client-profile"){         
     	$('.nav-tabs').find('li').eq(0).addClass('active').siblings().removeClass();        	 
@@ -147,10 +144,10 @@ $(document).ready(function () {
     } 
   })
  
-})
+
 </script>
+<% content_for 'javascript_contents' do %>
+<%= javascript_include_tag params[:controller] %>
 <% end %>
-
-
     </body>
 </html>

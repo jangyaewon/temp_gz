@@ -38,11 +38,7 @@
    
     <%end%>
 </h1>
-    <p>
-         <% @restaurant.tags.each do |tag| %>
-                 <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
-         <% end %>
-    </p>
+ 
 <hr>
 <p style="margin-top:-12px">
     <em class="link">
@@ -55,6 +51,11 @@
 <div id="map" style="width:100%;height:350px;"></div>
 <br><br>
 
+<p>식당 정보
+         <% @restaurant.tags.each do |tag| %>
+                 <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
+         <% end %>
+    </p>
 
 <hr>
 
@@ -102,7 +103,8 @@
                 <% if current_user.is_like?(review) %>
                       <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"><i class="fa fa-thumbs-o-up"> </i>좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
                 <% else %>
-                      <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                      <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>   좋아요(<span class="count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                      
                 <% end %>
            <% else %>
                 <button class="like" ><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
@@ -117,12 +119,46 @@
 
 <hr>
 
-
+<script>
+    $('.like').on('click',function(){
+      console.log("으어어어");
+      var review_id =  $(this).attr('data-id');
+      var flag = $(`#flag-${review_id}`).val();
+      console.log(flag + "1");
+      if(flag == "false"){
+      	var like_count = parseInt($(`.count-${review_id}`).text());
+      	like_count = like_count - 1;
+      	
+      	
+      	console.log(flag + "2");
+      	flag = "true";
+      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> <i class="fa fa-thumbs-o-up"></i>좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+      	$.ajax({
+      		url: "/likes/" + review_id
+      	})
+      
+      }
+      
+      else{
+      	var like_count = parseInt($(`.count-${review_id}`).text());
+      	like_count = like_count + 1;
+      	
+      	console.log(flag + "3");
+      	flag = "false";
+        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> <i class="fa fa-thumbs-o-up"></i>좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+      	$.ajax({
+      		url: "/likes/" + review_id
+      	})
+      }  
+   });  
+</script>
 <% content_for 'javascript_contents' do %>
 <%= javascript_include_tag params[:controller] %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
-<script type="text/javascript">
+<script>
 $(document).ready(function () {
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
         mapOption = {
@@ -162,42 +198,9 @@ $(document).ready(function () {
         }
         marker.setMap(map);
     });       
-
-
-
-
-  $('.like').on('click',function(){
-      var review_id =  $(this).attr('data-id');
-      var flag = $(`#flag-${review_id}`).val();
-      console.log(flag + "1");
-      if(flag == "false"){
-      	var like_count = parseInt($(`.count-${review_id}`).text());
-      	like_count = like_count - 1;
-      	
-      	
-      	console.log(flag + "2");
-      	flag = "true";
-      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> <i class="fa fa-thumbs-o-up"></i>좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
-      
-      	$.ajax({
-      		url: "/likes/" + review_id
-      	})
-      
-      }
-      
-      else{
-      	var like_count = parseInt($(`.count-${review_id}`).text());
-      	like_count = like_count + 1;
-      	
-      	console.log(flag + "3");
-      	flag = "false";
-        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> <i class="fa fa-thumbs-o-up"></i>좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
-      
-      	$.ajax({
-      		url: "/likes/" + review_id
-      	})
-      }  
-   });   	
+   	
 })
 </script>
 <% end %>
+
+
