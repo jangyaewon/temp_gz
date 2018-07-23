@@ -59,8 +59,6 @@
 
 <hr>
 
- 
-
 <h3>리뷰  목록</h3>
 <ul class="list-group">
   <% @restaurant.reviews.each do |review| %>
@@ -116,8 +114,38 @@
   <% end %>
 </ul>
 
-
+<p> <h4>블로그 포스팅</h4>
+    <% @posts.each do |post| %>
+    <table class="table table-borderless table-secondary ">
+      <tr>
+        <th scope="row"><a href="<%=post.url%>"><%= post.title %></a></th>
+      </tr>
+    </table>  
+    <table>
+      <tr>
+        <td>&nbsp;<img src="<%= post.b_img %>"></td>
+        <td>&nbsp;<%= post.desc%> </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp;&nbsp; <ul class="list-inline" align="center">
+               <li> 작성일 : <%=post.date%></li>
+               <li>작성자 : <%=post.b_user%></li>
+            </ul>
+        </td>
+      </tr>
+  </table>
+<br>
+<%  end %>
+</div>
+</p>
 <hr>
+ 
+
+
 
 <script>
     $('.like').on('click',function(){

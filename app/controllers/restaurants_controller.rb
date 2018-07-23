@@ -4,6 +4,7 @@ class RestaurantsController < ApplicationController
   # GET /restaurants.json
   def index
     @restaurants = Restaurant.all
+    
   end
 
   # GET /restaurants/1
@@ -12,8 +13,10 @@ class RestaurantsController < ApplicationController
     # @tmp1 = 5-@restaurant.reviews.taste_eval
     # @tmp2 = 5-@restaurant.reviews.service_eval
     # @tmp3 = 5-@restaurant.reviews.price_eval
-    # p 'mmmmmmmmmmm'
-    p @tmp1
+
+    @posts = Posting.where(restaurant_id: @restaurant.id)
+    
+    
   end
 
   # GET /restaurants/new
@@ -23,6 +26,8 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/1/edit
   def edit
+    @d = District.find(@restaurant.district_id)
+    @restaurant.blog_desc(@d.district_name, @restaurant.id)
   end
 
   # POST /restaurants
@@ -89,10 +94,10 @@ class RestaurantsController < ApplicationController
       str = temp[0..ind]
       puts "************************"
       p str
-      temp = temp[0..1]
       @station = Station.find_by_station_name(str)
       @restaurants = Restaurant.where(road_id: @station.road_id).page params[:page]
     else
+       temp = temp[0..1]
        @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc').page params[:page]
     end
    
@@ -119,5 +124,10 @@ class RestaurantsController < ApplicationController
     def restaurant_params
       params.require(:restaurant).permit(:res_name,:branch_name,:detail_addr,:food_type,:open_hour,
                                          :close_hour,:contents,:min_price,:max_price,:phone,:b_number,:image_path)
+    end
+    
+    def blog_desc
+      Restaurant.blog_desc(params[:query].to_s) #기본적으로 스트링으로 넘어오긴한데 굳이 인티저로 하는등 이런걸 방지. query를 데이터베이스에 넣을 필요없이 가져오기만하면되기 때문에 여기에 이런 파람스를 넣겠다 라는 뜻만 가지면 됨.
+      redirect_to root_path #크롤링한다음에 리프레쉬
     end
 end

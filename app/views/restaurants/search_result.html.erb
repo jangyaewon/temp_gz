@@ -70,7 +70,7 @@
                 <% @restaurants.each do |restaurant| %>
                     <div class="language-print client-des clearfix">
                       <div class="aplicants-pic pull-left">
-                       <img class="card-img-top" src="<%= restaurant.image_path.thumb.url%>" alt="<%= restaurant.res_name%>">
+                          <br><br><img class="card-img-top" src="<%= asset_path "여성가족부/#{restaurant.res_name}.jpg"%>" alt="">
                       </div>
                       <!-- end .aplicants-pic -->
                       <div class="clearfix">
@@ -96,6 +96,7 @@
                               <li><a href="#">Parfect Written &amp; Spoken English</a></li>
                             </ul>
                           </div> <!-- end .addintional-skills -->
+                         <hr style="border: solid 1px gray;">
                 <%  end %>
 
 

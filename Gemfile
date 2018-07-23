@@ -31,6 +31,7 @@ gem 'figaro'
 #summernote
 gem 'summernote-rails', '~> 0.8.10.0'
 
+gem 'mechanize'
 
 #rails db
 gem 'rails_db'

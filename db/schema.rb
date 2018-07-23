@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180723065640) do
+ActiveRecord::Schema.define(version: 20180723165355) do
 
   create_table "districts", force: :cascade do |t|
     t.string   "district_name"
@@ -44,6 +44,18 @@ ActiveRecord::Schema.define(version: 20180723065640) do
     t.string   "word"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "postings", force: :cascade do |t|
+    t.text     "desc"
+    t.string   "b_user"
+    t.text     "url"
+    t.string   "b_img"
+    t.string   "title"
+    t.integer  "restaurant_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "date"
   end
 
   create_table "restaurants", force: :cascade do |t|

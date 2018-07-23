@@ -79,7 +79,7 @@ csv.each do |row|
     r1.res_name = row['사용장소']
     r1.detail_addr = row['상세주소']
     r1.food_type = row['종류']
-    r1.state_id = 1
+    r1.state_id = ro.state_id
     r1.road_id = ro.id
     r1.district_id = ro.district_id
     r1.r_count = 1
@@ -181,3 +181,16 @@ csv.each do |row|
   
 end
 ----> 9-ex는 수정중
+
+해시태그
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'woman.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+   r = Restaurant.where(res_name: row['사용장소'], detail_addr: row['상세주소'])[0]
+   p r.id
+   Restaurant.update(r.id, :contents => row['contents'])
+
+   p r.contents
+end
