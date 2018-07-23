@@ -81,9 +81,15 @@ class RestaurantsController < ApplicationController
   end
 ###########################################################
   def search_result
-    temp = params[:query][0..1]
-    if temp.include?('역')
-      str = temp[0..temp.index('역')]
+    temp = params[:query]
+    p "?????????????"
+    if params[:query].include?("역")
+      p temp
+      ind = temp.index('역') -1
+      str = temp[0..ind]
+      puts "************************"
+      p str
+      temp = temp[0..1]
       @station = Station.find_by_station_name(str)
       @restaurants = Restaurant.where(road_id: @station.road_id).page params[:page]
     else
