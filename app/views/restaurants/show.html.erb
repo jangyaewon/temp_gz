@@ -13,7 +13,7 @@
 }
 
 .like{
-    font-family: 'Yeon Sung', cursive;	
+    font-family: 'Yeon Sung', cursive;   
     -webkit-appearance: media-overlay-play-button !important;
     cursor: pointer !important;
     background-color:  #ffff !important;
@@ -38,11 +38,7 @@
    
     <%end%>
 </h1>
-    <p>
-         <% @restaurant.tags.each do |tag| %>
-                 <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
-         <% end %>
-    </p>
+ 
 <hr>
 <p style="margin-top:-12px">
     <em class="link">
@@ -55,6 +51,11 @@
 <div id="map" style="width:100%;height:350px;"></div>
 <br><br>
 
+<p>식당 정보
+         <% @restaurant.tags.each do |tag| %>
+                 <%= link_to "##{tag.name}", "/restaurants/hashtags/#{tag.name}" , class: "btn btn-light" %>
+         <% end %>
+    </p>
 
 <hr>
 
@@ -102,7 +103,8 @@
                 <% if current_user.is_like?(review) %>
                       <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="false"><i class="fa fa-thumbs-o-up"> </i>좋아요 취소(<span class= "count-<%=review.id%>"><%= review.likes.count %></span>) </button> 
                 <% else %>
-                      <button data-id="<%=review.id%>" class="like" ><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                      <button data-id="<%=review.id%>" class="like"><input type="hidden" id="flag-<%=review.id%>" value="true"><i class="fa fa-thumbs-o-up"> </i>   좋아요(<span class="count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
+                      
                 <% end %>
            <% else %>
                 <button class="like" ><i class="fa fa-thumbs-o-up"> </i>좋아요(<span  class= "count-<%=review.id%>"><%= review.likes.count %></span>)</button>  
@@ -117,35 +119,71 @@
 
 <hr>
 
-
+<script>
+    $('.like').on('click',function(){
+      console.log("으어어어");
+      var review_id =  $(this).attr('data-id');
+      var flag = $(`#flag-${review_id}`).val();
+      console.log(flag + "1");
+      if(flag == "false"){
+         var like_count = parseInt($(`.count-${review_id}`).text());
+         like_count = like_count - 1;
+         
+         
+         console.log(flag + "2");
+         flag = "true";
+         $(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> <i class="fa fa-thumbs-o-up"></i>좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+         $.ajax({
+            url: "/likes/" + review_id
+         })
+      
+      }
+      
+      else{
+         var like_count = parseInt($(`.count-${review_id}`).text());
+         like_count = like_count + 1;
+         
+         console.log(flag + "3");
+         flag = "false";
+        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> <i class="fa fa-thumbs-o-up"></i>좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
+      
+         $.ajax({
+            url: "/likes/" + review_id
+         })
+      }  
+   });  
+</script>
 <% content_for 'javascript_contents' do %>
-<%= javascript_include_tag params[:controller] %>
+    <%= javascript_include_tag params[:controller] %>
+    
+<% end %>
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
-<script type="text/javascript">
-$(document).ready(function () {
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = {
-            center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3// 지도의 확대 레벨
-        };  
-    
-    // 지도를 생성합니다    
-    var map = new daum.maps.Map(mapContainer, mapOption); 
-    
-    // 주소-좌표 변환 객체를 생성합니다
-    var geocoder = new daum.maps.services.Geocoder();
-    
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch("<%=@restaurant.detail_addr%>", function(result, status) {
-    
-        // 정상적으로 검색이 완료됐으면 
-         if (status === daum.maps.services.Status.OK) {
-    
-            var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-    
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new daum.maps.Marker({
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
+    <script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new daum.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new daum.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch("<%=@restaurant.detail_addr%>", function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === daum.maps.services.Status.OK) {
+
+        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new daum.maps.Marker({
                 map: map,
                 position: coords
             });
@@ -154,50 +192,10 @@ $(document).ready(function () {
             var infowindow = new daum.maps.InfoWindow({
                 content: `<div style='width:150px;text-align:center;padding:6px 0;'><%= @restaurant.res_name%><br><a href="http://map.daum.net/link/to/<%= @restaurant.res_name%>,<%= @restaurant.latitude%>,<%= @restaurant.longitude%>" style="color:blue" target="_blank">길찾기</a></div>`
             });
-            infowindow.open(map, marker);
-    
-            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-            map.setCenter(coords);
-            
-        }
-        marker.setMap(map);
-    });       
+        infowindow.open(map, marker);
 
-
-
-
-  $('.like').on('click',function(){
-      var review_id =  $(this).attr('data-id');
-      var flag = $(`#flag-${review_id}`).val();
-      console.log(flag + "1");
-      if(flag == "false"){
-      	var like_count = parseInt($(`.count-${review_id}`).text());
-      	like_count = like_count - 1;
-      	
-      	
-      	console.log(flag + "2");
-      	flag = "true";
-      	$(this).html(`<input type="hidden" id="flag-${review_id}" value="true"> <i class="fa fa-thumbs-o-up"></i>좋아요(<span class= "count-${review_id}">${like_count}</span>)`)
-      
-      	$.ajax({
-      		url: "/likes/" + review_id
-      	})
-      
-      }
-      
-      else{
-      	var like_count = parseInt($(`.count-${review_id}`).text());
-      	like_count = like_count + 1;
-      	
-      	console.log(flag + "3");
-      	flag = "false";
-        $(this).html(`<input type="hidden" id="flag-${review_id}" value="false"> <i class="fa fa-thumbs-o-up"></i>좋아요 취소(<span class= "count-${review_id}">${like_count}</span>)`)
-      
-      	$.ajax({
-      		url: "/likes/" + review_id
-      	})
-      }  
-   });   	
-})
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});    
 </script>
-<% end %>

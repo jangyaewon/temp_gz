@@ -3,4 +3,5 @@ class Road < ApplicationRecord
     belongs_to   :state
     belongs_to   :district
     has_many     :restaurants    
+    has_many     :stations
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180723052352) do
+ActiveRecord::Schema.define(version: 20180723065640) do
 
   create_table "districts", force: :cascade do |t|
     t.string   "district_name"
@@ -107,6 +107,17 @@ ActiveRecord::Schema.define(version: 20180723052352) do
     t.string   "state_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "stations", force: :cascade do |t|
+    t.integer  "state_id"
+    t.integer  "road_id"
+    t.integer  "district_id"
+    t.string   "station_name"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "tags", force: :cascade do |t|

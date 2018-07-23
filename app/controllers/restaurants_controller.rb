@@ -82,7 +82,14 @@ class RestaurantsController < ApplicationController
 ###########################################################
   def search_result
     temp = params[:query][0..1]
-    @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc').page params[:page]
+    if temp.include?('역')
+      str = temp[0..temp.index('역')]
+      @station = Station.find_by_station_name(str)
+      @restaurants = Restaurant.where(road_id: @station.road_id).page params[:page]
+    else
+       @restaurants = Restaurant.search_restaurant_ad(temp).order('r_count desc').page params[:page]
+    end
+   
      respond_to do |format|
       format.html { render :action => "search_result" }
       format.xml  { render :xml => @restaurants }

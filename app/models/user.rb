@@ -9,7 +9,7 @@ class User < ApplicationRecord
       has_many  :restaurants, through: :scrabs
       has_many  :reviews
       has_many  :likes
-      has_many  :nicknames
+   
       
    def self.from_omniauth(access_token)
     data = access_token.info

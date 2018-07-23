@@ -102,21 +102,21 @@
               </div> <!-- end .candidate-description -->
 
         <!--카미나리-->
-              <div class="pagination-content clearfix">
+        <!--      <div class="pagination-content clearfix">-->
 
-                <nav>
-                  <ul class="list-inline">
-                    <li><a class="btn btn-default first" href="#">first</a></li>
-                    <li><a class="btn btn-default previous" href="#">Previous</a></li>
-                    <li class="active"><a class="number" href="#">1</a></li>
-                    <li><a class="number" href="#">2</a></li>
-                    <li><a class="number" href="#">3</a></li>
-                    <li><a class="number" href="#">4</a></li>
-                    <li><a class="btn btn-default next" href="#">Next</a></li>
-                    <li><a class="btn btn-default last" href="#">Last</a></li>
-                  </ul>
-                </nav>
-              </div>
+        <!--        <nav>-->
+        <!--          <ul class="list-inline">-->
+        <!--            <li><a class="btn btn-default first" href="#">first</a></li>-->
+        <!--            <li><a class="btn btn-default previous" href="#">Previous</a></li>-->
+        <!--            <li class="active"><a class="number" href="#">1</a></li>-->
+        <!--            <li><a class="number" href="#">2</a></li>-->
+        <!--            <li><a class="number" href="#">3</a></li>-->
+        <!--            <li><a class="number" href="#">4</a></li>-->
+        <!--            <li><a class="btn btn-default next" href="#">Next</a></li>-->
+        <!--            <li><a class="btn btn-default last" href="#">Last</a></li>-->
+        <!--          </ul>-->
+        <!--        </nav>-->
+        <!--      </div>-->
         <!--카미나리-->
 
 
@@ -161,10 +161,9 @@ var other_name =[];
  
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
     mapOption = { 
-        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 
+        center: new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표, // 지도의 중심좌표 
         level: 4 // 지도의 확대 레벨 
     }; 
-
 var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
 // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
@@ -324,8 +323,13 @@ function changeMarker(type){
         setJapaneseMarkers(null);
         setOtherMarkers(null);
 
+    <% unless @station.nil? %>
+    var moveLatLon = new daum.maps.LatLng(<%=@station.latitude%>, <%=@station.longitude%>);
+        map.setCenter(moveLatLon);
+    <%else%>
         bounds_k.extend(koreanPositions[0]);
         setBounds(bounds_k);
+    <%end%>
     } else if (type === 'japanese') { // 편의점 카테고리가 클릭됐을 때
     
         // 편의점 카테고리를 선택된 스타일로 변경하고
@@ -338,8 +342,14 @@ function changeMarker(type){
         setJapaneseMarkers(map);
         setOtherMarkers(null);
         
+    <% unless @station.nil? %>
+    var moveLatLon = new daum.maps.LatLng(<%=@station.latitude%>, <%=@station.longitude%>);
+        map.setCenter(moveLatLon);
+    <%else%>
         bounds_j.extend(japanesePositions[0]);
         setBounds(bounds_j);
+    <%end%>
+        
     } else if (type === 'other') { // 주차장 카테고리가 클릭됐을 때
      
         // 주차장 카테고리를 선택된 스타일로 변경하고
@@ -351,10 +361,16 @@ function changeMarker(type){
         setKoreanMarkers(null);
         setJapaneseMarkers(null);
         setOtherMarkers(map);  
-        
+
+    <% unless @station.nil? %>
+    var moveLatLon = new daum.maps.LatLng(<%=@station.latitude%>, <%=@station.longitude%>);
+        map.setCenter(moveLatLon);
+    <%else%>
         bounds_o.extend(otherPositions[0]);
         setBounds(bounds_o);
-    }    
+    <%end%>
+        
+    }
 } 
 </script>
     </body>

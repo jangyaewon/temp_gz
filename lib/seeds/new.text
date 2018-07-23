@@ -136,3 +136,48 @@ csv.each do |row|
   end
   
 end
+
+
+
+## 닉네임
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'nickname.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+  n = Nickname.new
+  n.word = row['단어']
+  n.save  
+end
+
+역
+
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', '9-ex.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+  
+
+  d = District.where(district_name: row['구'])[0]
+  ro = Road.where(road_name: row['동'], district_id: d.id)[0]
+  
+  r = Station.where(station_name: row['역명'], road_id: ro.id)[0]
+  
+  if r.nil?
+    r1 = Station.new
+    
+    r1.station_name = row['역명']
+    r1.state_id = ro.state_id
+    r1.road_id = ro.id
+    r1.district_id = ro.district_id
+    r1.latitude = row['X좌표']
+    r1.longitude = row['Y좌표']
+    r1.save
+    p row['역명']
+  end
+ 
+
+  
+end
+----> 9-ex는 수정중
