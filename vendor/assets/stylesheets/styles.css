@@ -60,7 +60,7 @@ body {
 }
 a {
   padding-left: 15px;
-  color: #df3a9b;
+  color: #041023;
   text-decoration: none;
   cursor: pointer;
   -webkit-transition: all 0.25s ease-out;
@@ -109,8 +109,8 @@ address {
   line-height: 20px;
 }
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin-top: 40px;
+  margin-bottom: 40px;
   border: 0;
   border-top: 1px solid #e5e5e5;
 }
@@ -6328,6 +6328,7 @@ ul.client-applicants-tab li  a:hover,ul.client-applicants-tab li  a:focus {
   position: relative;
   width: 100%;
   padding-top: 10px;
+  padding-left: 40px;
 }
 .aplicant-details-show ul {
   text-align: left;
@@ -6789,3 +6790,4 @@ ul.client-applicants-tab li  a:hover,ul.client-applicants-tab li  a:focus {
   margin-top: 15px;
   text-transform: uppercase;
 }
+
