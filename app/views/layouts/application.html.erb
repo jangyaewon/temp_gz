@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Gongin</title>
+    <title>GongZa</title>
     <%= csrf_meta_tags %>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag     params[:controller], media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>
 
   <body>
-    <%= render "shared/nav" %>
-    <% flash.each do |k,v| %>
-      <div class="alert alert-<%= k %>"><%= v %> </div>
-    <% end %>
-    <div class="container">
-    <%= yield %>
-    </div>
+      <div id="main-wrapper" class="our-agents-content">
+        <!-- HEADER -->
+        <header id="header">
+          <%= render 'shared/nav'%>
+        </header>
+        <%= yield %>
+      
+      </div>
+        <%= yield 'javascript_content'%>
   </body>
 </html>

@@ -1,1 +1,77 @@
-<h1>index</h1>
+<head><link href="https://fonts.googleapis.com/css?family=Yeon+Sung" rel="stylesheet"></head>  
+<style>
+    h1 {
+    font-family: 'Yeon Sung', cursive;
+    }
+    h2 {
+        font-family: 'Yeon Sung', cursive;
+        font-size :10pt;
+    }
+    .btn-light {
+        float: right;
+        background-color: #ffffff;
+    }
+    .search-field{
+        display: -webkit-inline-box !important;
+        width:  90% !important;
+ 
+    }
+</style>
+   
+    <div id="page-content">
+
+        <div class="index-page-search-content">
+          <div id="owl-demo" class="owl-carousel owl-theme">
+
+            <div class="item"
+              style="background: url('<%= asset_path 'dish.jpg' %>') center center no-repeat; background-size: cover;"></div>
+            <div class="item"
+              style="background: url('<%= asset_path 'food2.jpg' %>') center center no-repeat; background-size: cover;"></div>
+            <div class="item"
+              style="background: url('<%= asset_path 'food3.jpg' %>') center center no-repeat; background-size: cover;"></div>
+          </div>
+          
+          <div class="container">
+            <div class="search-holder">
+              <h1>공 자 맛 집</h1>
+              <h2>공 무  원 이&nbsp;&nbsp;자 주 가 는&nbsp;&nbsp;맛집</h2>
+
+              <div id="header-search">
+                <div class="header-search-bar">
+                     
+                        <%= form_tag ("/restaurants/search_result") , :method => :get  do %>
+                          	  <%= text_field_tag :query, params[:query] ,:class =>"search-field" %>
+                
+                  
+                          <!--<div class="hsb-select">-->
+                          <!--  <select class="form-control">-->
+                          <!--    <option value="">전체</option>-->
+                          <!--    <option value="">한식</option>-->
+                          <!--    <option value="">양식</option>-->
+                          <!--    <option value="">중식</option>-->
+                          <!--    <option value="">일식</option>-->
+                          <!--    <option value="">기타</option>-->
+                          <!--    <option value="">까페</option>-->
+                          <!--  </select>-->
+                          <!--</div>-->
+                              <%= submit_tag "Search!" ,:class =>"btn btn-light"%>
+                          <% end %>
+                        
+                      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <!-- end .container -->
+
+
+      </div>
+      
+<% content_for 'javascript_content' do %>
+<%= javascript_include_tag params[:controller] %>
+<script>
+   
+</script>
+<% end %>

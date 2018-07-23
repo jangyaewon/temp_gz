@@ -1,18 +1,156 @@
-<h1>아이디: <%=current_user.email%></h1>
-<hr>
-<p>리뷰목록</p>
-<% current_user.reviews.each do |review| %>
-	<li class="list-group-item">
-	      <%= link_to "#{review.restaurant.search_restaurant(review)}", restaurant_path(restaurant_id: review.restaurant_id),class: "btn btn-secondary"%>
-          <%= simple_format(review.contents) %>
-	</li>
-<% end %>
-<hr>
+<!doctype html>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<html lang="en">
 
-<p>스크랩목록</p>
-<% current_user.scrabs.each do |scrab| %>
-	<li class="list-group-item">
-		 <%= link_to "#{scrab.restaurant.search_restaurant(scrab)}", restaurant_path(restaurant_id: scrab.restaurant_id),class: "btn btn-secondary"%>
-	</li>
+
+  <body>
+    <div id="main-wrapper" class="cient-profile-content">
+      <div class="header-page-title clearfix">
+        <div class="title-overlay"></div>
+          <div class="container">
+            <div class="title-breadcrumb clearfix">
+              <h1>My Page</h1>
+            </div> <!-- end .title-breadcrumb -->
+          </div> <!-- end .container -->
+      </div> <!-- end .header-page-title -->
+	  
+      <div id="page-content" class="candidate-profile client-bg-color">
+        <div class="container">
+          <div class="page-content">
+            <div class="responsive-tabs dashboard-tabs">
+              <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab"  href="#client-profile">리뷰</a></li>
+                <li><a data-toggle="tab"  href="#applicants">스크랩</a></li>
+              </ul>
+<!--div to tab content-->
+  <div class="tab-content">
+<!--리뷰 스타트-->
+    <div id="#client-profile" class="tab-pane fade in active">          
+         		       <div class="view-sort clearfix mb20">
+                        <div class="row">
+                          <div class="col-sm-7">
+                            <h4 class="available-jb">리뷰목록</h4>
+                          </div>
+                        </div> <!-- end .row -->
+                     </div>
+                      <!--1. div to review-->
+						<!-- 리뷰 진짜 스타트-->
+            <% current_user.reviews.each do |review| %>
+              <div class="candidate-description client-description">
+              <!-- start .language-print -->
+              <div class="language-print client-des clearfix">
+                 <div class="pull-left">
+                   <a href="/restaurants/<%=review.restaurant_id %>?restaurant_id=<%=review.restaurant_id%>"><h5><%=review.restaurant.search_restaurant(review)%></h5></a> <br>
+                 </div>
+               </div> 
+               <!-- end .language-print -->
+              <div class="candidate-details">
+                 <p><small>작성날짜:&nbsp;<%=review.updated_at.strftime("%Y년 %m월 %d일 %H시%M분") %></small></p>
+                 <p><%= simple_format(review.contents) %></p>
+              </div> <!-- end .candidate-details -->
+              </div> <!-- end .candidate-description -->
+            <% end %>
+            <!-- 리뷰 끝 -->  
+						        <!--페이지 나눌 곳-->
+						         <!--start pagination-->
+                      <div class="pagination-content clearfix">
+                      <!--start nav-->
+                        <nav>
+                          <ul class="list-inline">
+                            <li><a class="btn btn-default first" href="#">first</a></li>
+                            <li><a class="btn btn-default previous" href="#">Previous</a></li>
+                            <li class="active"><a class="number" href="#">1</a></li>
+                            <li><a class="number" href="#">2</a></li>
+                            <li><a class="number" href="#">3</a></li>
+                            <li><a class="btn btn-default next" href="#">Next</a></li>
+                            <li><a class="btn btn-default last" href="#">Last</a></li>
+                          </ul>
+                        </nav>
+                      <!--end nav-->
+                      </div> 
+                      <!-- end .pagination -->                      
+                      <!--end to review-->
+    </div> <!-- end .tabe pane -->
+<!--리뷰 엔드-->
+<!-- 스크랩 스타트 -->    
+    <div id="applicants" class="tab-pane fade">          
+         		       <div class="view-sort clearfix mb20">
+                        <div class="row">
+                          <div class="col-sm-7">
+                            <h4 class="available-jb">스크랩목록</h4>
+                          </div>
+                        </div> <!-- end .row -->
+                     </div>
+                      <!--1. div to scrab-->
+						<!-- 스크랩 진짜 스타트-->
+              <% current_user.scrabs.each do |scrab| %>
+              <!-- start .candidate-description -->
+                <div class="candidate-description client-description">
+                <!-- start .language-print -->  
+                <div class="language-print client-des clearfix">
+                 <div class="pull-left">
+                  <a href="/restaurants/<%=scrab.restaurant_id %>?restaurant_id=<%=scrab.restaurant_id%>"><h5><%=scrab.restaurant.search_restaurant(scrab)%></h5></a> <br>
+                 </div>
+                         <ul class="list-inline pull-right">
+                           <strong><li class="star-rating">별점을 씁니다.</li></strong> 
+                         </ul>
+                 </div>
+                 <!-- end .language-print -->
+                </div> 
+                <!-- end .candidate-description -->
+              <% end %>
+            <!-- 스크랩 끝 -->   
+            
+						        <!--페이지 나눌 곳-->
+						         <!--start pagination-->
+                      <div class="pagination-content clearfix">
+                      <!--start nav-->
+                        <nav>
+                          <ul class="list-inline">
+                            <li><a class="btn btn-default first" href="#">first</a></li>
+                            <li><a class="btn btn-default previous" href="#">Previous</a></li>
+                            <li class="active"><a class="number" href="#">1</a></li>
+                            <li><a class="number" href="#">2</a></li>
+                            <li><a class="number" href="#">3</a></li>
+                            <li><a class="btn btn-default next" href="#">Next</a></li>
+                            <li><a class="btn btn-default last" href="#">Last</a></li>
+                          </ul>
+                        </nav>
+                      <!--end nav-->
+                      </div> 
+                      <!-- end .pagination -->                      
+                      <!--end to scrab-->
+    </div> <!-- end .tabe pane -->
+<!-- 스크랩 엔드 -->
+  </div> 
+<!-- end .tab-content -->
+            </div> <!-- end .responsive-tabs.dashboard-tabs -->
+          </div> <!-- end .page-content -->
+        </div> <!-- end .container -->
+      </div> <!-- end #page-content -->
+    </div> <!-- end #main-wrapper -->
+
+
+<% content_for 'javascript_contents' do %>
+<%= javascript_include_tag params[:controller] %>
+<script type="text/javascript">
+$(document).ready(function () {
+  $(function(){     
+    if (location.hash == "#client-profile"){         
+    	$('.nav-tabs').find('li').eq(0).addClass('active').siblings().removeClass();        	 
+    	$('.tab-content').find('#domain').addClass('active in').siblings().removeClass('active in');     
+    } else if(location.hash == "#applicants"){         
+      $('.nav-tabs').find('li').eq(1).addClass('active').siblings().removeClass();         
+      $('.tab-content').find('#renew').addClass('active in').siblings().removeClass('active in');     
+    } 
+  })
+ 
+})
+</script>
 <% end %>
-<hr>
+
+
+    </body>
+</html>

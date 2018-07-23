@@ -1,0 +1,109 @@
+  <header id="header">
+        <div class="header-top-bar">
+
+          <!--
+          HEADER TOP BAR WITH NOTIFICATION FOR REGISTER USER
+          -->
+
+          <div class="header-notification-bar" style="display:none;">
+            <div class="register-user">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-3 col-sm-3">
+                    <div class="logo-section">
+                     <%= link_to(image_tag("#{asset_path 'logo-bu.png'}", :alt => "logo", :title => "Home", :class=>"images", :id=>"logo"), "/", :class=>"links", :id=>"logo_link") %>
+                    </div>
+                  </div>
+                    <!--상단 search바 -->
+                    <div class="col-md-6 col-sm-5">
+                         <div class="search-form">
+                               <form action="#">
+                                 <button class="dropdown-search"><i class="fa fa-caret-down"></i> 
+                                 <i class="fa fa-bars"></i></button>
+                                   <%= form_tag search_result_restaurants_path, :class => 'topbar-search-input', :method => :get do %>
+                    				<%= text_field_tag :query, params[:query] %> <%= submit_tag "fa fa-search", :class => "search-button" %>
+                    			  <% end %>
+                                </form>
+                    	</div>
+                    </div>
+
+                  <div class="col-md-3 col-sm-4">
+                    <div class="notification-section text-right">
+                      <ul class="list-inline">
+                        <li><a href="#"><i class="fa fa-envelope-o"></i></a><span class="new-notification">3</span></li>
+                        <li><a href="#"><i class="fa fa-bell-o"></i></a><span class="new-notification">3</span></li>
+                        <li class="user-profile-pic"><a href="#"><img src="<%= asset_path ''%>" alt=""></a></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div> <!-- end .row -->
+              </div> <!-- end .container -->
+            </div> <!-- end .register-user -->
+          </div> <!-- end. header-notification-bar  -->
+
+          <!--
+          END HEADER NOTIFICATION TOP BAR
+          -->
+
+          <!--
+          HEADER TOP BAR FOR NON REGISTER USER
+          -->
+
+          <div class="header-notification-bar">
+            <div class="non-register-user">
+
+              <div class="container">
+                <div class="row">
+
+                  <div class="col-md-3 col-sm-3">
+                    <div class="logo-section">
+                      <img src="<%= asset_path 'logo-bu.png'%>" alt="gonza-logo" width="70%">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 col-sm-5">
+                    <div class="search-form">
+
+                      <form action="#">
+                        <button class="dropdown-search"><i class="fa fa-caret-down"></i> <i class="fa fa-bars"></i></button>
+                        <input type="search" placeholder="Search..." class="topbar-search-input">
+                        <button class="search-button"><i class="fa fa-search"></i></button>
+                      </form>
+
+                    </div>
+                  </div>
+
+                  <div class="col-md-3 col-sm-4">
+                    <div class="notification-section text-right">
+                      <ul class="list-inline">
+                        <li><%= link_to "Login", "/users/sign_in" %></li>
+                      </ul>
+                    </div>
+                  </div>
+
+                </div> <!-- end .row -->
+              </div> <!-- end .container -->
+            </div> <!-- end .visitors-top-bar -->
+          </div> <!-- end. header-notification-bar  -->
+
+
+          <!--
+          END HEADER TOP BAR FOR WITHOUT LOGIN USER
+          -->
+
+          <!-- Navigation -->
+          <div class="main-navbar">
+
+          </div> <!-- main-navbar -->
+          <!-- end .header-top-bar -->
+        </div>
+
+
+      </header>
+
+
+
+
+
+

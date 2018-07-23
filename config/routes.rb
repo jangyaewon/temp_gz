@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   end
   
   get 'users/:id' => 'users#show'
-  
   root 'restaurants#index'
   
   resources :reviews

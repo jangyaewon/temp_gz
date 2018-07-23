@@ -9,7 +9,8 @@ class User < ApplicationRecord
       has_many  :restaurants, through: :scrabs
       has_many  :reviews
       has_many  :likes
-    
+      has_many  :nicknames
+      
    def self.from_omniauth(access_token)
     data = access_token.info
     user = User.where(email: data['email']).first
@@ -53,6 +54,14 @@ class User < ApplicationRecord
   #스크랩 기능
   def is_scrab?(restaurant)
     Scrab.find_by(user_id: self.id,restaurant_id: restaurant.id).present?
+  end
+  
+  #닉네임
+  def has_nickname(user)
+    @res = User.find_by(id: user.id)
+    random = Nickname.find(rand((Nickname.last.id + 1)))
+    @res.nickname = random.word
+    @res.nickname
   end
           
 end
