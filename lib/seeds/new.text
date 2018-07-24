@@ -61,19 +61,23 @@ end
 
 require 'csv'
 
-csv_text = File.read(Rails.root.join('lib', 'seeds', 'seoul_dong.csv'))
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'sj.csv'))
 csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+
+s1 = State.create(state_name: row['시도명'])
+d1 = District.create(state_id: s1.id, district_name: "없음")
 csv.each do |row|
    r = Road.new
-   r1 = Road.where(state_id: 17, road_name: row['읍면동명'])[0]
+   r1 = Road.where(state_id: s1.id, district_id: d1.id, road_name: row['읍면동명'])[0]
    p row['읍면동명']
    
    if r1.nil?
     r.road_name = row['읍면동명']
-    r.state_id = 17
-    r.district_id = 250
+    r.state_id = s1.id
+    r.district_id = d1.id
     r.save
    end
+end
 
 
 
@@ -114,6 +118,17 @@ end
 
 
 
+require 'csv'
+
+csv_text = File.read(Rails.root.join('lib', 'seeds', 'woman.csv'))
+csv = CSV.parse(csv_text, :headers => true, :encoding => 'UTF-8')
+csv.each do |row|
+   r = Restaurant.where(res_name: row['사용장소'], detail_addr: row['상세주소'])[0]
+   p r.id
+   Restaurant.update(r.id, :contents => row['contents'])
+
+   p r.contents
+end
 
 
 
@@ -145,6 +160,7 @@ csv.each do |row|
     r1.r_count = 1
     r1.latitude = row['Latitude']
     r1.longitude = row['Longitude']
+    contents = row['contents']
     r1.save
     p row['road2']
   else
