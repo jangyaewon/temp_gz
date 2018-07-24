@@ -76,7 +76,7 @@
                       <div class="clearfix">
                         <div class="pull-left">
                           <h3><%=link_to "#{restaurant.res_name}" , restaurant_path(restaurant)%></h3>
-                          <a href="#"><%= restaurant.food_type%></a>
+                          <h4> &nbsp;&nbsp;<%= restaurant.food_type%></h4>
                         </div>
                       </div>
                       <div class="aplicant-details-show clearfix">
@@ -92,7 +92,7 @@
                         </div> 
                         <hr>
                 <%  end %>
-
+<%= paginate @restaurants, theme: 'twitter-bootstrap-3' %>
 
               </div> <!-- end .candidate-description -->
 
@@ -113,11 +113,6 @@
         <!--        </nav>-->
         <!--      </div>-->
         <!--카미나리-->
-
-
-
-
-
             </div> <!-- end .page-content -->
           </div>
         </div> <!-- end .container -->
@@ -126,7 +121,6 @@
 
     </div>
     <!-- end #main-wrapper -->
-<%= paginate @restaurants, theme: 'twitter-bootstrap-3' %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691&libraries=services"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c54932c4439cf12df10a1ccd41bbe691"></script>
 <script>
