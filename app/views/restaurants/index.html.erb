@@ -37,11 +37,12 @@
               <h2>공 무  원 이&nbsp;&nbsp;자 주 가 는&nbsp;&nbsp;맛집</h2>
 
               <div id="header-search">
-                <div class="header-search-bar">
+                <div class="header-search-bar row">
                      
                         <%= form_tag ("/restaurants/search_result") , :method => :get  do %>
+                        <div class="col-xs-6" style="width:80%;">
                                <%= text_field_tag :query, params[:query] ,:class =>"search-field" %>
-                
+                        </div>
                   
                           <!--<div class="hsb-select">-->
                           <!--  <select class="form-control">-->
@@ -54,7 +55,9 @@
                           <!--    <option value="">까페</option>-->
                           <!--  </select>-->
                           <!--</div>-->
-                              <%= submit_tag "Search!" ,:class =>"btn btn-light"%>
+                          <div class="col-xs-6" style="width:17%;">
+                              <%= submit_tag "검색" ,:class =>"btn btn-light" %>
+                              </div>
                           <% end %>
                         
                       
