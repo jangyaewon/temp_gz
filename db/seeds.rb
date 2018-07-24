@@ -23,7 +23,7 @@ csv.each do |row|
     r1.r_count = 1
     r1.latitude = row['Latitude']
     r1.longitude = row['Longitude']
-    contents = row['contents']
+    r1.contents = row['contents']
     r1.save
     p row['road2']
   else
