@@ -16,9 +16,9 @@ class KakaoController < ApplicationController
     elsif @user_msg == "원하는 식당 검색"
       @text = "알고싶은 주소를 입력해주세요\n ex) 강남역 맛집"
     elsif @user_msg == "공자맛집으로 이동하기"  
-      @url = "https://gongin-mat-zip-wonwon.c9users.io/"
+      @url = "http://www.gongza.me/"
     else
-      @url = "https://gongin-mat-zip-wonwon.c9users.io/"
+      @url = "http://www.gongza.me/"
       @temp = @user_msg[0..1]
       @restaurant = Restaurant.where("detail_addr LIKE ?","%#{@temp}%")[0]
 

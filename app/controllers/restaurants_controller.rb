@@ -13,7 +13,8 @@ class RestaurantsController < ApplicationController
     # @tmp1 = 5-@restaurant.reviews.taste_eval
     # @tmp2 = 5-@restaurant.reviews.service_eval
     # @tmp3 = 5-@restaurant.reviews.price_eval
-
+    @d = District.find(@restaurant.district_id)
+    @restaurant.blog_desc(@d.district_name, @restaurant.id)
     @posts = Posting.where(restaurant_id: @restaurant.id)
     
     
@@ -26,8 +27,6 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/1/edit
   def edit
-    @d = District.find(@restaurant.district_id)
-    @restaurant.blog_desc(@d.district_name, @restaurant.id)
   end
 
   # POST /restaurants
